@@ -78,18 +78,18 @@ fi
       }
     }
 
-    stage('Cleanup') {
-      steps {
-        script {
-          sh 'docker stop nginx-website || true'
-          sh 'docker rm nginx-website || true'
+    // stage('Cleanup') {
+    //   steps {
+    //     script {
+    //       sh 'docker stop nginx-website || true'
+    //       sh 'docker rm nginx-website || true'
 
-          // Optional: Remove the local Docker image
-          sh 'docker rmi ghcr.io/rayhanardiansyah17/cicdtest:latest || true'
-        }
+    //       // Optional: Remove the local Docker image
+    //       sh 'docker rmi ghcr.io/rayhanardiansyah17/cicdtest:latest || true'
+    //     }
 
-      }
-    }
+    //   }
+    // }
 
   }
   environment {
