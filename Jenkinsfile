@@ -39,7 +39,7 @@ fi
             try {
               // Check the status code and return an error if it's not 200
               sh '''
-STATUS=$(curl -o /dev/null -s -w "%{http_code}" http://host.docker.internal:80/)
+STATUS=$(curl -o /dev/null -s -w "%{http_code}" http://host.docker.internal:8081/)
 if [ "$STATUS" -ne 200 ]; then
 echo "Nginx app returned status code $STATUS"
 exit 1
