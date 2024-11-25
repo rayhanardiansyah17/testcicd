@@ -27,7 +27,7 @@ pipeline {
              '''
 
           // Run the Flask app container in detached mode
-          sh 'docker run -d --network host -p 8080:80 --name nginx-website ghcr.io/rayhanardiansyah/cicdtest:latest'
+          sh 'docker run -d --network host -p 8080:80 --name nginx-website ghcr.io/rayhanardiansyah17/cicdtest:latest'
 
           // Wait for Flask app to start up and be ready
           sleep 5 // Increase wait time for Flask app startup
@@ -72,24 +72,24 @@ pipeline {
     stage('Push Docker Image to GHCR') {
       steps {
         script {
-          sh 'docker push ghcr.io/rayhanardiansyah/cicdtest:latest'
+          sh 'docker push ghcr.io/rayhanardiansyah17/cicdtest:latest'
         }
 
       }
     }
 
-    // stage('Cleanup') {
-    //   steps {
-    //     script {
-    //       sh 'docker stop nginx-website || true'
-    //       sh 'docker rm nginx-website || true'
+    stage('Cleanup') {
+      steps {
+        script {
+          sh 'docker stop nginx-website || true'
+          sh 'docker rm nginx-website || true'
 
-    //       // Optional: Remove the local Docker image
-    //       sh 'docker rmi ghcr.io/rayhanardiansyah/cicdtest:latest || true'
-    //     }
+          // Optional: Remove the local Docker image
+          sh 'docker rmi ghcr.io/rayhanardiansyah17/cicdtest:latest || true'
+        }
 
-    //   }
-    // }
+      }
+    }
 
   }
   environment {
