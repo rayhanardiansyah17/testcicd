@@ -7,7 +7,7 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - website:/usr/share/nginx/html/index.html
+      - website:/usr/share/nginx/html
     restart: always
 
   jenkins-docker:
