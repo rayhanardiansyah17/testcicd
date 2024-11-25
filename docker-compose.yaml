@@ -5,9 +5,9 @@ services:
     image: nginx:alpine
     container_name: nginx_website
     ports:
-      - "80:80"
+      - "8081:80"
     volumes:
-      - ./index.html:/usr/share/nginx/html/index.html
+      - website:/usr/share/nginx/html/index.html
     restart: always
 
   jenkins-docker:
@@ -53,3 +53,4 @@ networks:
 volumes:
   jenkins-docker-certs:
   jenkins-data:
+  website:

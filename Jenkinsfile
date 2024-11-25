@@ -20,14 +20,14 @@ pipeline {
       steps {
         script {
           sh '''
-if [ $(docker ps -aq -f name=nginx-website) ]; then
-docker stop nginx-website || true
-docker rm nginx-website || true
-fi
-'''
+              if [ $(docker ps -aq -f name=nginx-website) ]; then
+              docker stop nginx-website || true
+              docker rm nginx-website || true
+              fi
+             '''
 
           // Run the Flask app container in detached mode
-          sh 'docker run -d --network host -p 80:80 --name nginx-website ghcr.io/rayhanardiansyah/cicdtest:latest'
+          sh 'docker run -d --network host -p 8080:80 --name nginx-website ghcr.io/rayhanardiansyah/cicdtest:latest'
 
           // Wait for Flask app to start up and be ready
           sleep 5 // Increase wait time for Flask app startup
@@ -39,14 +39,14 @@ fi
             try {
               // Check the status code and return an error if it's not 200
               sh '''
-STATUS=$(curl -o /dev/null -s -w "%{http_code}" http://host.docker.internal:80/)
-if [ "$STATUS" -ne 200 ]; then
-echo "Nginx app returned status code $STATUS"
-exit 1
-else
-echo "Nginx app returned status code 200"
-fi
-'''
+                  STATUS=$(curl -o /dev/null -s -w "%{http_code}" http://host.docker.internal:80/)
+                  if [ "$STATUS" -ne 200 ]; then
+                  echo "Nginx app returned status code $STATUS"
+                  exit 1
+                  else
+                  echo "Nginx app returned status code 200"
+                  fi
+                  '''
             } catch (Exception e) {
               // Print the Nginx app logs if the test fails
               sh 'docker logs nginx-website'
@@ -78,18 +78,18 @@ fi
       }
     }
 
-    stage('Cleanup') {
-      steps {
-        script {
-          sh 'docker stop nginx-website || true'
-          sh 'docker rm nginx-website || true'
+    // stage('Cleanup') {
+    //   steps {
+    //     script {
+    //       sh 'docker stop nginx-website || true'
+    //       sh 'docker rm nginx-website || true'
 
-          // Optional: Remove the local Docker image
-          sh 'docker rmi ghcr.io/rayhanardiansyah/cicdtest:latest || true'
-        }
+    //       // Optional: Remove the local Docker image
+    //       sh 'docker rmi ghcr.io/rayhanardiansyah/cicdtest:latest || true'
+    //     }
 
-      }
-    }
+    //   }
+    // }
 
   }
   environment {
